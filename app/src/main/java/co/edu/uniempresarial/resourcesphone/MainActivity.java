@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView longitude;
     private boolean flagLocation = false;
 
+    private Bluetooth bt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         activity = this;
-
+        bt = new Bluetooth(context, activity);
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryPower, batteryFilter);
 
-        getPermission();
+        bt.getPermission();
     }
 
     //battery end
@@ -122,63 +124,16 @@ public class MainActivity extends AppCompatActivity {
         if (isConnected) tvConnection.setText("Is connected");
     }
 
-    //1st step with bluetooth handling
-    public boolean statusPermissionBT() {
-        int responseBT = ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH);
-        if (responseBT == PackageManager.PERMISSION_GRANTED) return true;
-        return false;
-    }
 
-    //2nd step with bluetooth handling
-    public void getPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this.activity, Manifest.permission.BLUETOOTH)) {
-            Toast.makeText(this, "Lacks permissions", Toast.LENGTH_SHORT).show();
-        } else {
-            ActivityCompat.requestPermissions(this.activity, new String[]{Manifest.permission.BLUETOOTH}, 100);
-        }
-    }
-
-    //complement bluetooth
-    public void flagMethod() {
-        if (!this.flag) {
-            btAdapter = BluetoothAdapter.getDefaultAdapter();
-            this.flag = true;
-        }
-    }
 
     //3st step with bluetooth handling
     @SuppressLint("MissingPermission")
     public void enableBluetooth(View view) {
-        flagMethod();
-        if (btAdapter == null) {
-            Toast.makeText(context, "Device does not have Bluetooth", Toast.LENGTH_LONG).show();
-            btAdapter.disable();
-        }
-
-        if (!this.btAdapter.isEnabled()) {
-            if (!statusPermissionBT()) {
-                getPermission();
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(intent, 101);
-            } else {
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(intent, 101);
-            }
-        } else {
-            Toast.makeText(context, "Is enabled", Toast.LENGTH_SHORT).show();
-        }
+        bt.enableBluetooth();
     }
-
     @SuppressLint("MissingPermission")
     public void disableBluetooth(View view) {
-        flagMethod();
-
-        if (btAdapter.isEnabled()) {
-            btAdapter.disable();
-            Toast.makeText(context, "Turning off", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Turning on", Toast.LENGTH_SHORT).show();
-        }
+        bt.disableBluetooth();
     }
 
 }
