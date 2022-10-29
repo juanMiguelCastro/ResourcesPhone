@@ -23,7 +23,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * @author: Hember Güiza Cardenaz
+ * @author: Juan Miguel Castro Rojas
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final int BATTERY_NOT_GIVEN = -1;

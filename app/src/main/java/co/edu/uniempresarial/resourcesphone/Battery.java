@@ -1,10 +1,9 @@
 package co.edu.uniempresarial.resourcesphone;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.BatteryManager;
-
+/**
+ * @author: Hember Güiza Cardenaz
+ * @author: Juan Miguel Castro Rojas
+ */
 public class Battery {
     public String mensajeBattery(int currentLevel, int batteryScale){
         String mensaje="";

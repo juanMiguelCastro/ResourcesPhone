@@ -13,7 +13,10 @@ import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileWriter;
-
+/**
+ * @author: Hember Güiza Cardenaz
+ * @author: Juan Miguel Castro Rojas
+ */
 public class StoredFile {
 
     public static final int PERMISSION_CODE = 100;

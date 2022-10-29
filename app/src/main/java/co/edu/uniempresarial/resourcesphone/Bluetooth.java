@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
+/**
+ * @author: Hember Güiza Cardenaz
+ * @author: Juan Miguel Castro Rojas
+ */
 public class Bluetooth {
     private BluetoothAdapter btAdapter;
     private boolean flag = false;
