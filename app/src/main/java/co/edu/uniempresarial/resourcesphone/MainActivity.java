@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         bt = new Bluetooth(context, activity);
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryPower, batteryFilter);
-
         bt.getPermission();
     }
 
@@ -73,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         String versionSO = Build.VERSION.RELEASE;
         int versionSDK = Build.VERSION.SDK_INT;
         tvVersionAndroid.setText("OS Version: " + versionSO + " SDK version: " + versionSDK);
-
-        connect();
+        Connect con = new Connect();
+        con.connect(this,connectivityManager);
 
     }
 
@@ -102,31 +101,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_NOT_GIVEN);
             int batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_NOT_GIVEN);
-
-            if (batteryScale != 100) {
-                int level = 0;
-                if (currentLevel >= 0 && batteryScale > 0) {
-                    level = (currentLevel * 100) / batteryScale;
-                    tvBattery.setText("Battery: " + level + "%");
-                }
-            } else {
-                tvBattery.setText("Battery: " + currentLevel + "%");
-            }
+            Battery battery = new Battery();
+            tvBattery.setText(battery.mensajeBattery(currentLevel,batteryScale));
         }
     };
 
-    //Connectivity init and end
-    private void connect() {
-        connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
-
-        if (isConnected) tvConnection.setText("Is connected");
-    }
-
-
-
-    //3st step with bluetooth handling
     @SuppressLint("MissingPermission")
     public void enableBluetooth(View view) {
         bt.enableBluetooth();
